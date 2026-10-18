@@ -1,0 +1,62 @@
+# qbd-ledger-archive configuration. Copy to archive.toml and edit.
+# (archive*.toml is in .gitignore, except this example.)
+
+[archive]
+# Where raw/, manifest.json, the database and validation/ go. Relative paths
+# are relative to this file. Keep it out of shared or synced folders: it will
+# hold the company's complete books.
+dir = "archive"
+# Used for the database file name: <company_label>.sqlite
+# (letters, digits, '.', '_' and '-')
+company_label = "company"
+
+[books]
+# First day of the first fiscal year with ANY activity. Earlier activity is
+# still captured in a catch-all period, but QuickBooks collapses income and
+# expense detail for every fiscal year but the last inside that period, and
+# validation fails until this date moves back far enough.
+start = "2017-01-01"
+# Last day of books activity. Anything later lands in a catch-all period.
+end = "2024-12-31"
+# Must match the company file's fiscal year setting (validation checks it).
+fiscal_year_start_month = 1
+# "accrual" is required (the archive ties on it). Add "cash" for a second,
+# independently tied cash-basis ledger.
+bases = ["accrual"]
+
+[qbxml]
+version = "16.0"
+
+[transport]
+# "com": run on the QuickBooks machine, in the logged-on Windows session.
+kind = "com"
+# Keep single quotes around Windows paths (double quotes treat \ as an escape).
+company_file = 'C:\qb-archive\company.qbw'
+app_name = "qbd-ledger-archive"
+
+# "command": hand each request to another program, for example the SSH
+# bridge in bridge/windows/. Placeholders: {request} {response} {timeout}.
+# kind = "command"
+# command = ["bash", "/full/path/to/bridge/windows/remote.sh", "qb-host", "{request}", "{response}", "{timeout}"]
+# grace_seconds = 120
+
+[extract]
+# Seconds QuickBooks gets per request before the extractor gives up on it.
+# Ledger months aren't split, so raise report_timeout if one keeps timing out.
+report_timeout = 900
+txn_timeout = 420
+txn_timeout_crossref = 180
+list_timeout = 420
+max_consecutive_failures = 8
+
+# Every source-document type by default. On QuickBooks Pro or Premier,
+# exclude inventory transfers, which only Enterprise has. Completeness
+# validation flags any type QuickBooks counts that the archive didn't extract.
+# exclude_txn_types = ["transferinventory"]
+# txn_types = ["invoice", "recvpayment", "creditmemo"]
+
+# Starting window size in months per document type (the extractor still
+# splits any window that times out). Keep this table last in the file.
+# [extract.window_months]
+# invoice = 1
+# check = 12

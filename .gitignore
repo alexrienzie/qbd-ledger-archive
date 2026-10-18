@@ -1,0 +1,46 @@
+# Archive output and bridge working files hold company financial data.
+# Never commit them.
+archive/
+raw/
+requests/
+validation/
+manifest.json
+manifest.tmp
+extract.lock
+EXTRACT_COMPLETE
+bridge/windows/io/
+**/io/
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+*.db
+*.building
+*.part
+archive*.toml
+!archive.example.toml
+
+# QuickBooks company files and their companions (both cases: Linux is
+# case-sensitive)
+*.qbw
+*.QBW
+*.qbb
+*.QBB
+*.qbm
+*.QBM
+*.qbx
+*.QBX
+*.tlg
+*.TLG
+*.nd
+*.ND
+*.dsn
+*.DSN
+*.SearchIndex/
+
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.venv/

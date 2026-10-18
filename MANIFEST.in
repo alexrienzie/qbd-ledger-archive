@@ -1,0 +1,6 @@
+include LICENSE README.md SECURITY.md archive.example.toml
+graft docs
+graft bridge
+graft tests
+global-exclude __pycache__ *.pyc
+prune bridge/windows/io

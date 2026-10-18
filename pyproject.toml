@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qbd-ledger-archive"
+version = "0.1.0"
+description = "Extract a QuickBooks Desktop company file into a tie-validated SQLite archive for reporting, tax, audit and migration work"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "Alex Rienzie"}]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Financial and Insurance Industry",
+  "Topic :: Office/Business :: Financial :: Accounting",
+]
+dependencies = []
+
+[project.optional-dependencies]
+com = ["pywin32; sys_platform == 'win32'"]
+
+[project.scripts]
+qbd-archive = "qbd_archive.cli:main"
+
+[tool.setuptools]
+packages = ["qbd_archive"]
+
+[tool.setuptools.package-data]
+qbd_archive = ["*.sql"]
+
+[project.urls]
+Homepage = "https://github.com/alexrienzie/qbd-ledger-archive"
